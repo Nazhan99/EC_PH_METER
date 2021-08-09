@@ -30,6 +30,9 @@
   int buf[10], temp;
   float calibration_value = 21.34;
   float volt;
+
+  //sd card module
+  File myFile;
   
   
   float PPMconversion = 0.7;
@@ -144,6 +147,9 @@
     PrintReadings();  // Cals Print routine [below main loop]
   
     //Saving data into SD card
+    save_EC();
+    save_temp();
+    save_waterlevel();
   
   
     return 0;
@@ -301,8 +307,8 @@
     myFile = SD.open("temp.txt", FILE_WRITE);
   
     if (myFile) { //can open the file
-      Serial.print(temperature);
-      myFile.println(temperature); //write the data into the text file
+      Serial.print(Temperature);
+      myFile.println(Temperature); //write the data into the text file
       // close the file:
       myFile.close();
       Serial.println("done.");
@@ -314,7 +320,7 @@
   }
   
   void save_waterlevel() {
-    myFile = SD.open("water_level.txt", FILE_WRITE);
+    myFile = SD.open("waterlevel.txt", FILE_WRITE);
   
     if (myFile) { //can open the file
       Serial.print(resval);
@@ -325,6 +331,6 @@
     }
     else {
       // if the file didn't open, print an error:
-      Serial.println("error opening water_level.txt");
+      Serial.println("error opening waterlevel.txt");
   }
 }
